@@ -1,5 +1,5 @@
 #pragma once
-#include "RenderObject.h"
+#include "RenderObject.hpp"
 
 class Geometric : public RenderObject {
     /**

@@ -2,18 +2,21 @@
 #pragma once
 #include <vector>
 #include <memory>
-#include "RenderObject.h"
-#include "Color.h"
+#include "RenderObject.hpp"
+#include "Color.hpp"
 
-class Window : public RenderObject {
+class Scene : public RenderObject {
 private:
     Color _c;
     std::vector<std::shared_ptr<RenderObject>> renderObjects;
 
 public:
-    Window();
-    explicit Window(Color& c);
+    Scene();
+    explicit Scene(Color& c);
 
+    // NOTE: difference between render and draw is that render is less abstracted
+    // away from the GPU code, while render commands do the real rendering work.
+    void render() const;
     void draw() const override;
 
     /**
@@ -30,5 +33,5 @@ public:
      */
     void removeRenderObject(const std::shared_ptr<RenderObject>& renderObj);
 
-    virtual ~Window() = default;
+    virtual ~Scene() = default;
 };

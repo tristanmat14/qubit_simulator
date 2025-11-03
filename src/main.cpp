@@ -78,14 +78,13 @@ int main() {
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
-    // Triangle vertices
-    std::array<glm::vec3, 3> vertices = {
-        glm::vec3{0.0f,  0.5f, 0.0f}, // top
-        glm::vec3{-0.5f, -0.5f, 0.0f}, // left
-        glm::vec3{0.5f, -0.5f, 0.0f}  // right
-    };
+    auto scene = Scene();
+    auto tMesh = TriangleMesh(shaderProgram);
+    auto t1 = Triangle(glm::vec3{0.0f, 0.0f, 0.0f}, glm::vec3{0.0f, 0.0f, 1.0f}, 0, tMesh);
+    auto t2 = Triangle(glm::vec3{0.5f, 0.5f, 0.0f}, glm::vec3{0.0f, 0.0f, 1.0f}, 30, tMesh);
 
-    auto triangle = Triangle(vertices);
+    scene.addRenderObject(t1);
+    scene.addRenderObject(t2);
 
     // Render loop
     while (!glfwWindowShouldClose(glfwWindow)) {
@@ -93,25 +92,10 @@ int main() {
         if (glfwGetKey(glfwWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS)
             glfwSetWindowShouldClose(glfwWindow, true);
 
-        // Render
-        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        // Draw triangle
-        glUseProgram(shaderProgram);
-        unsigned int transformLoc = glGetUniformLocation(shaderProgram, "transform");
-        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, &transform[0][0]);
-        glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-
-        // Swap buffers & poll events
-        glfwSwapBuffers(glfwWindow);
-        glfwPollEvents();
+        scene.render();
     }
 
     // Cleanup
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
     glDeleteProgram(shaderProgram);
     glfwDestroyWindow(glfwWindow);
     glfwTerminate();

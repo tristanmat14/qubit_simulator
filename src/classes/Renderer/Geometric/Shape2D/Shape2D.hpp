@@ -1,5 +1,5 @@
 #pragma once
-#include "Geometric.h"
+#include "Geometric.hpp"
 #include "glm/glm.hpp"
 #include <stdexcept>
 
