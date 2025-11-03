@@ -1,6 +1,6 @@
 # Compiler and flags
 CXX := g++
-CXXFLAGS := -Wall -Wextra -Werror -pedantic -std=c++17 -Iinclude
+CXXFLAGS := -Wall -Wextra -Werror -pedantic -std=c++17 -Iinclude -Isrc/classes
 CC := gcc
 CFLAGS := -Iinclude
 
@@ -8,8 +8,8 @@ CFLAGS := -Iinclude
 LDFLAGS := -Llib -Llib/GLFW -lglfw3 -lGL -lX11 -lXrandr -lpthread -ldl
 
 # Source Files
-SRC_CXX := src/main.cpp
-SRC_C := src/glad.c
+SRC_CXX := $(shell find src -name "*.cpp")
+SRC_C := $(shell find src -name "*.c")
 
 # Object Files
 OBJ_CXX := $(SRC_CXX:src/%.cpp=build/%.o)
@@ -32,6 +32,9 @@ $(TARGET): $(OBJS)
 
 # Rule to compile C++ source files to object files
 build/%.o: src/%.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+build/%.o: src/classes/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # Rule to compile C source files to object files

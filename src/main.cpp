@@ -4,8 +4,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
 #include <array>
-#include "Triangle.h"
-#include "Window.h"
+#include "Scene.hpp"
+#include "Triangle.hpp"
+#include "TriangleMesh.hpp"
 
 // Window dimensions
 const unsigned int WIDTH = 800;
